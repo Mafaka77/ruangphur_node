@@ -1,4 +1,3 @@
-
 <template>
   <div class="grid grid-cols-1 md:grid-cols-5 gap-4 pt-3 ">
     <div class="bg-red-100 p-4 rounded-lg flex flex-col justify-center items-center">
@@ -24,6 +23,10 @@
   </div>
 </template>
 <script setup>
+import {useAdminStore} from "@/stores/adminStore.js";
+
+const adminStore = useAdminStore();
+
 
 </script>
 

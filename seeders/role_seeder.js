@@ -3,7 +3,7 @@ const Role = require("../models/role_model");
 const roles = [
     { name: "Admin"},
     { name: "User"},
-    { name: "Moderator" }
+    { name: "Manager" }
 ];
 
 // Seed roles into the database

@@ -1,34 +1,39 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center ">
-    <div class="bg-white dark:bg-gray-800 p-9 rounded-sm shadow-lg w-full max-w-lg">
+  <div class="min-h-screen flex items-center justify-center text-black p-2">
+    <div class="border dark:border-gray-300 p-9 rounded-sm  w-full max-w-lg">
       <!-- Logo -->
-      <div class="flex justify-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-700 dark:text-white">Welcome Back</h2>
+      <div class="flex flex-col mb-6">
+        <h1 class="text-2xl font-bold ">Login</h1>
+        <p>Enter your credentials to Login</p>
       </div>
 
-      <!-- Login Form -->
+      <!-- Login Pending -->
       <form @submit.prevent="handleLogin">
-        <div class="pb-3">
-          <label class="block text-gray-600 dark:text-gray-300 text-sm font-semibold mb-2">Email</label>
-          <input v-model="email" type="email" placeholder="Enter your email"
-                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                 required>
+        <div class="py-5">
+          <label class="block text-sm font-semibold mb-2">Email</label>
+          <input v-model="email"
+                 class="w-full px-4 py-2 border rounded-lg  dark:border-gray-600"
+                 placeholder="Enter your email"
+                 required
+                 type="email">
         </div>
 
         <div class="pb-4">
-          <label class="block text-gray-600 dark:text-gray-300 text-sm font-semibold mb-2">Password</label>
-          <input v-model="password" type="password" placeholder="Enter your password"
-                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                 required>
+          <label class="block  text-sm font-semibold mb-2">Password</label>
+          <input v-model="password"
+                 class="w-full px-4 py-2 border rounded-lg  dark:border-gray-600"
+                 placeholder="Enter your password"
+                 required
+                 type="password">
         </div>
 
         <!-- Error Message -->
         <p v-if="error" class="text-red-500 text-sm mb-3">{{ error }}</p>
 
         <button
-          type="submit"
-          class="w-full flex items-center justify-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
-          :disabled="useAuthStore().isLoading">
+            :disabled="useAuthStore().isLoading"
+            class="w-full flex items-center justify-center bg-black text-white py-2 rounded-lg hover:bg-gray-600 disabled:bg-blue-300"
+            type="submit">
           <span v-if="useAuthStore().isLoading" class="flex items-center">
           <svg class="animate-spin h-5 w-5 mr-2 border-4 border-white border-t-transparent rounded-full"></svg>
         </span>
@@ -40,7 +45,7 @@
       <!-- Extra Links -->
       <div class="pt-4 text-center">
         <p class="text-sm text-gray-600 dark:text-gray-300">
-          Don't have an account? <a href="#" class="text-blue-500 hover:underline">Sign Up</a>
+          Don't have an account? <a class="text-blue-500 hover:underline" href="#">Sign Up</a>
         </p>
       </div>
     </div>
@@ -49,13 +54,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 import {useAuthStore} from "@/stores/authStore.js";
-import { useRouter } from "vue-router";
+import {useSnackbar} from "vue3-snackbar";
+import router from "@/router/index.js";
 
-import { useSnackbar } from "vue3-snackbar";
 const snackbar = useSnackbar();
-const router=useRouter();
+
 const email = ref("");
 const password = ref("");
 const error = ref("");
@@ -65,22 +70,17 @@ const handleLogin = () => {
     error.value = "Invalid email or password!";
   } else {
     error.value = "";
-    useAuthStore().login({email:email.value, password:password.value},()=>{
+    useAuthStore().login({email: email.value, password: password.value}, () => {
       console.log("Loading");
-    },(message)=>{
-        snackbar.add(
+    }, (message) => {
+
+      router.replace({name: 'dashboard'});
+    }, (message) => {
+      snackbar.add(
           {
             text: message,
-            type: "success",
+            type: "warning",
           }
-        );
-
-    },(message)=>{
-      snackbar.add(
-        {
-          text: message,
-          type: "warning",
-        }
       )
     });
   }

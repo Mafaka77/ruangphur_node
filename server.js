@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const adminRoutes = require("./routes/admin_routes");
 const apiRoutes=require("./routes/api_routes");
 const app = express();
+const path = require("path");
 
 // Connect to MongoDB
 connectDB();
@@ -13,9 +14,9 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
-app.use("/api/admin", adminRoutes);
+// app.use("/api/admin", adminRoutes);
 app.use("/api/auth", require("./routes/auth_routes"));
 app.use("/api", apiRoutes);
 app.get("/", (req, res) => {

@@ -16,10 +16,11 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
-    otp: {
-        type: Number,
-        required: false,
-    },
+    
+    district:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'District'
+    }],
     roles:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Role'

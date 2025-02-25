@@ -56,12 +56,12 @@ exports.login = async (req, res) => {
 exports.getAuthUser = async (req, res) => {
 
     try {
-        const user = await User.findById(req.user.user.id).populate("roles", "name").select("-password -__v");
+       
 
+        const user = await User.findById(req.user.user.id).populate("roles", "name").populate('district').select("-password -__v");
         if (!user) return res.status(404).json({ message: "User not found" });
-
         res.status(200).json({ data:user,status:200});
     } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(200).json({ message: error.message,status:500 });
     }
 };
